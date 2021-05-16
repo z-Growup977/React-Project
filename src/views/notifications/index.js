@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, Button, List, Badge } from "antd";
+import { connect } from "react-redux";
 
 const data = [
   {
@@ -16,17 +17,39 @@ const data = [
   },
 ];
 
-export default class idnex extends Component {
+const mapState = (state) => {
+  return { list: state.notifications.list };
+};
+
+@connect(mapState)
+class index extends Component {
   render() {
+    console.log(this.props);
     return (
-      <Card title={"通知中心"} extra={<Button>全部标记为已读</Button>}>
+      <Card
+        title={"通知中心"}
+        extra={
+          <Button
+            disabled={this.props.list.every((item) => item.hasRead === true)}
+          >
+            全部标记为已读
+          </Button>
+        }
+      >
         <List
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={this.props.list}
           renderItem={(item) => (
             <List.Item>
-              <List.Item.Meta title={<Badge dot>{item.title}</Badge>} />
-              <Button>标记为已读</Button>
+              <List.Item.Meta
+                title={<Badge dot={!item.hasRead}>{item.title}</Badge>}
+                description={item.desc}
+              />
+              {item.hasRead ? (
+                <Button>标记为未读</Button>
+              ) : (
+                <Button>标记为已读</Button>
+              )}
             </List.Item>
           )}
         />
@@ -34,3 +57,5 @@ export default class idnex extends Component {
     );
   }
 }
+
+export default index;
