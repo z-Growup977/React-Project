@@ -5,7 +5,7 @@
 const initState = {
   list: [
     { id: 1, title: "1111", desc: "11111111111", hasRead: true },
-    { id: 2, title: "2222", desc: "22222222222", hasRead: true },
+    { id: 2, title: "2222", desc: "22222222222", hasRead: false },
   ],
 };
 
