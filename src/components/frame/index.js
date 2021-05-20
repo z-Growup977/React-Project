@@ -6,12 +6,13 @@ import { admainRoute } from "../../routes/index";
 import { withRouter } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-
+import { getNotificationsData } from "../../actions/notifications";
 // 过滤一下,生成新的数组
 const menu = admainRoute.filter((route) => route.isNav === true); // [{dashbord}, {article}, {settings}]
 const { Header, Content, Footer, Sider } = Layout;
 
 const mapState = (state) => {
+  // console.log(state.notifications.list);
   return {
     notificationsCount: state.notifications.list.filter(
       (item) => item.hasRead === false
@@ -19,7 +20,7 @@ const mapState = (state) => {
   };
 };
 
-@connect(mapState)
+@connect(mapState, { getNotificationsData })
 @withRouter
 class index extends Component {
   // 当我们点击Menu.item的时候会触发  路由相关的API history location match
@@ -43,6 +44,9 @@ class index extends Component {
       <Menu.Item key="/login">退出</Menu.Item>
     </Menu>
   );
+  componentDidMount() {
+    this.props.getNotificationsData();
+  }
   render() {
     let selectedKeysArr = this.props.location.pathname.split("/");
     selectedKeysArr.length = 3; // 就算点击编辑页面的时候也只会保留地址的/admin/article
