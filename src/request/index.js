@@ -46,3 +46,8 @@ export const getArticleDetailById = (id) => {
 export const saveArticleById = (id, data) => {
   return service.post(`/api/v1/articlesave/${id}`, data);
 };
+
+// 定义获取通知中心数据接口
+export const getNotifications = () => {
+  return service.post("/api/v1/notifications");
+};
